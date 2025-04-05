@@ -1,10 +1,5 @@
-
 const RecentWithdrawal = () => {
-    return (
-        <div>
+  return <div></div>;
+};
 
-        </div>
-    )
-}
-
-export default RecentWithdrawal
+export default RecentWithdrawal;

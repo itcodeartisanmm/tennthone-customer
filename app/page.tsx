@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { authService } from "@/lib/api/services";
 import { useEffect, useState } from "react";
 export default function Home() {

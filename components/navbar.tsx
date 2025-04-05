@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -10,7 +10,12 @@ import {
 } from "@heroui/navbar";
 import { Link } from "@heroui/link";
 import { Switch } from "@heroui/switch";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/dropdown'
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,14 +28,13 @@ export const Navbar = () => {
   const { theme } = useTheme();
   const [isMy, setIsMy] = useState(false);
   const { t, i18n } = useTranslation();
-  const user_id = localStorage.getItem('user_id') ?? null;
+  const user_id = typeof window !== "undefined" ? localStorage.getItem("user_id") ?? null : null;
 
   const handleLanguageChange = () => {
     setIsMy(!isMy);
     i18n.changeLanguage(isMy ? "my" : "en");
   };
   const menuItems: Array<{ label: string; href: string }> = [];
-
 
   return (
     <HeroUINavbar
@@ -40,10 +44,7 @@ export const Navbar = () => {
     >
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <Link
-            href=""
-            className="font-bold text-inherit"
-          >
+          <Link href="" className="font-bold text-inherit">
             T
           </Link>
         </NavbarBrand>
@@ -51,10 +52,7 @@ export const Navbar = () => {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <Link
-            href=""
-            className="font-bold text-inherit"
-          >
+          <Link href="" className="font-bold text-inherit">
             TENNTHONE
           </Link>
         </NavbarBrand>
@@ -71,9 +69,7 @@ export const Navbar = () => {
             {t("common.wallet")}
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          |
-        </NavbarItem>
+        <NavbarItem>|</NavbarItem>
         <NavbarItem>
           <div className="flex items-center gap-2">
             <p className="text-sm">My</p>
@@ -100,11 +96,7 @@ export const Navbar = () => {
               </DropdownTrigger>
             </NavbarItem>
             <DropdownMenu>
-              <DropdownItem
-                key="profile"
-                as={Link}
-                href="/dashboard/profile"
-              >
+              <DropdownItem key="profile" as={Link} href="/dashboard/profile">
                 {t("common.profile")}
               </DropdownItem>
               <DropdownItem
@@ -139,6 +131,6 @@ export const Navbar = () => {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
-    </HeroUINavbar >
+    </HeroUINavbar>
   );
 };

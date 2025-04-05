@@ -38,9 +38,9 @@ export interface UpdateProfileInfoRequest {
 }
 
 export interface UpdatePasswordRequest {
-  current_password: string;
+  old_password: string;
   password: string;
-  password_confirmation: string;
+  confirm_password: string;
 }
 
 export interface DashboardResponse {
@@ -86,6 +86,3 @@ export interface paymentStatusColorInterface {
 export interface paymentMethodColorInterface {
   [key: number]: "success" | "danger" | "warning";
 }
-
-
-

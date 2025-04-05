@@ -17,8 +17,9 @@ const OverLayEffect = () => {
       <div
         className="absolute inset-0 bg-cover bg-center z-0 w-full h-full"
         style={{
-          backgroundImage: `url(${theme === "dark" ? BackgroundImage : LightBackgroundImage
-            })`,
+          backgroundImage: `url(${
+            theme === "dark" ? BackgroundImage : LightBackgroundImage
+          })`,
         }}
       ></div>
 
