@@ -11,9 +11,16 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface LoginWithTokenRequest {
+  token: string;
+}
+
 export interface LoginResponse {
   token: string;
-  user_id: string;
+  user: {
+    id: string;
+  };
+  url?: string;
 }
 
 export interface ProfileResponse {

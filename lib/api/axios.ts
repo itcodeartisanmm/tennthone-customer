@@ -33,11 +33,13 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
+    console.log(error.response?.status);
+    console.log(error.response?.data);
     // Handle 401 Unauthorized errors
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
+      localStorage.removeItem("token");
+      localStorage.removeItem("user_id");
       // Clear token and redirect to login
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");

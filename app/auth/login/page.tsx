@@ -2,7 +2,7 @@
 import OverLayEffect from "@/components/overlay-effect";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { Link } from "@heroui/link";
@@ -13,19 +13,32 @@ import {
 } from "@/components/icons";
 import { authService } from "@/lib/api/services";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-const Page = () => {
+// Client component that uses useSearchParams
+const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const [showPage, setShowPage] = useState(false);
+
   interface IFormInput {
     email: string;
     password: string;
+    token: string | null;
   }
+
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>();
+  } = useForm<IFormInput>({
+    defaultValues: {
+      token: token,
+    },
+  });
+
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -36,15 +49,27 @@ const Page = () => {
   };
 
   const submit = (data: IFormInput) => {
-    authService
-      .login(data)
-      .then((res) => {
-        router.push("/dashboard/wallet");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    authService.login(data);
   };
+
+  useEffect(() => {
+    const websiteToken = searchParams.get("token");
+    if (websiteToken) {
+      authService.loginWithToken({ token: websiteToken });
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.replace("/dashboard/wallet"); // redirect if already logged in
+    } else {
+      setShowPage(true);
+    }
+  }, [searchParams, router]);
+
+  if (!showPage) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="relative w-full h-screen bg-gray-800 flex justify-center items-center">
       <OverLayEffect />
@@ -152,6 +177,15 @@ const Page = () => {
         </div>
       </form>
     </div>
+  );
+};
+
+// Main page component with Suspense boundary
+const Page = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 };
 
