@@ -9,19 +9,20 @@ import {
   TableRow,
   TableCell,
 } from "@heroui/react";
-import { useRouter } from "next/navigation";
 import {
   IncomeInterface,
   statusColorInterface,
   paymentStatusColorInterface,
   paymentMethodColorInterface,
 } from "@/lib/api/types";
+import { useRouter } from "next/navigation";
 
 const RecentIncome = ({
   recentIncome,
 }: {
   recentIncome: IncomeInterface[];
 }) => {
+  const router = useRouter();
   const columns = [
     {
       key: "order_no",
@@ -121,7 +122,7 @@ const RecentIncome = ({
               className="capitalize"
               color={
                 paymentStatusColorMap[
-                  cellValue as keyof typeof paymentStatusColorMap
+                cellValue as keyof typeof paymentStatusColorMap
                 ]
               }
               size="sm"
@@ -129,7 +130,7 @@ const RecentIncome = ({
             >
               {
                 paymentStatusTextMap[
-                  cellValue as keyof typeof paymentStatusTextMap
+                cellValue as keyof typeof paymentStatusTextMap
                 ]
               }
             </Chip>
@@ -140,7 +141,7 @@ const RecentIncome = ({
               className="capitalize"
               color={
                 paymentMethodColorMap[
-                  cellValue as keyof typeof paymentMethodColorMap
+                cellValue as keyof typeof paymentMethodColorMap
                 ]
               }
               size="sm"
@@ -148,7 +149,7 @@ const RecentIncome = ({
             >
               {
                 paymentMethodTextMap[
-                  cellValue as keyof typeof paymentMethodTextMap
+                cellValue as keyof typeof paymentMethodTextMap
                 ]
               }
             </Chip>
@@ -174,7 +175,7 @@ const RecentIncome = ({
     <div className="mx-10">
       <div className="flex flex-row justify-between items-center mb-4">
         <h3 className="text-base leading-6 font-medium">Recent Incomes</h3>
-        <Button size="sm" radius="sm" variant="solid" color="default">
+        <Button onPress={() => router.push("/dashboard/order")} size="sm" radius="sm" variant="solid" color="default">
           View All Incomes
         </Button>
       </div>
@@ -195,7 +196,7 @@ const RecentIncome = ({
               key={item.id}
               className="cursor-pointer"
               onClick={() => {
-                console.log(item);
+                router.push(`/dashboard/order/${item.id}`);
               }}
             >
               {(columnKey) => (

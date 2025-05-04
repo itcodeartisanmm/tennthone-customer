@@ -3,13 +3,16 @@ import { authService, walletService } from "@/lib/api/services";
 import { useEffect, useState } from "react";
 import Balance from "./Balance";
 import RecentIncome from "./RecentIncome";
-import { DashboardResponse } from "@/lib/api/types";
+import { DashboardResponse, TopUpInterface } from "@/lib/api/types";
+import RecentTopUpHistory from "./RecentTopUpHistory";
 
 export default function Page() {
   const [user, setUser] = useState<any>(null);
   const [dashboardData, setDashboardData] = useState<DashboardResponse | null>(
     null,
   );
+  console.log(dashboardData);
+
   useEffect(() => {
     authService.getCurrentUser().then((res) => {
       setUser(res.data);
@@ -36,6 +39,11 @@ export default function Page() {
           />
           {dashboardData?.recentOrders && (
             <RecentIncome recentIncome={dashboardData?.recentOrders} />
+          )}
+          {dashboardData?.recentTopups && (
+            <RecentTopUpHistory
+              recentTopUpHistory={dashboardData?.recentTopups}
+            />
           )}
         </div>
       )}

@@ -8,6 +8,14 @@ import type {
   ProfileResponse,
   UpdatePasswordRequest,
   UpdateProfileInfoRequest,
+  OrderResponse,
+  OrderDetailsResponse,
+  TopUpBalanceResponse,
+  TopUpBalanceRequest,
+  TopUpHistoryResponse,
+  TopupHistoryRequest,
+  TopUpInterface,
+  TopupDetailsResponse,
 } from "./types";
 
 
@@ -84,9 +92,49 @@ export const userService = {
 export const walletService = {
   getDashboardData: async (data: { date: string }) => {
     const response = await api.get<ApiResponse<DashboardResponse>>(
-      "/dashboard/wallet/dashboard",
+      "/dashboard/wallet",
+      { params: data },
+    );
+    return response.data;
+  }
+};
+
+export const topupService = {
+  topUpBalance: async (data: TopUpBalanceRequest) => {
+    const response = await api.post<ApiResponse<TopUpBalanceResponse>>(
+      "/dashboard/topup",
+      data,
+    );
+    return response.data;
+  },
+  getTopups: async (data: TopupHistoryRequest) => {
+    const response = await api.get<ApiResponse<TopUpHistoryResponse>>(
+      "/dashboard/topup",
       { params: data },
     );
     return response.data;
   },
+  getTopupById: async (id: string) => {
+    const response = await api.get<ApiResponse<TopupDetailsResponse>>(
+      `/dashboard/topup/${id}`,
+    );
+    return response.data;
+  },
 };
+
+export const orderService = {
+  getOrders: async (data: { page: number, limit: number }) => {
+    const response = await api.get<ApiResponse<OrderResponse>>(
+      "/dashboard/orders",
+      { params: data },
+    );
+    return response.data;
+  },
+  getOrderDetails: async (data: { id: number }) => {
+    const response = await api.get<ApiResponse<OrderDetailsResponse>>(
+      `/dashboard/orders/${data.id}`,
+    );
+    return response.data;
+  },
+};
+

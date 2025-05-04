@@ -374,3 +374,31 @@ export const TaxesIcon = () => {
     </svg>
   );
 };
+
+export const BackButtonIcon = () => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.94165 15.2584H12.6083C14.9083 15.2584 16.775 13.3917 16.775 11.0917C16.775 8.79172 14.9083 6.92505 12.6083 6.92505H3.44165" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5.35843 9.00837L3.2251 6.87503L5.35843 4.7417" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+};
+
+export const LeftArrowIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M8.77528 4.55806C9.01935 4.80214 9.01935 5.19786 8.77528 5.44194L4.84222 9.375H16.6667C17.0118 9.375 17.2917 9.65482 17.2917 10C17.2917 10.3452 17.0118 10.625 16.6667 10.625H4.84222L8.77528 14.5581C9.01935 14.8021 9.01935 15.1979 8.77528 15.4419C8.5312 15.686 8.13547 15.686 7.89139 15.4419L2.89139 10.4419C2.64732 10.1979 2.64732 9.80214 2.89139 9.55806L7.89139 4.55806C8.13547 4.31398 8.5312 4.31398 8.77528 4.55806Z"
+        fill="white"
+      />
+    </svg>
+  );
+};

@@ -8,18 +8,21 @@ import {
   PopoverTrigger,
   Tabs,
   Tab,
+  useDisclosure,
 } from "@heroui/react";
 import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
   LockedIcon,
   InfoIcon,
-  TaxesIcon,
 } from "@/components/icons";
 import BalanceBgImage from "../../../public/assets/images/backgrounds/light/balance-bg.svg";
 import { walletService } from "@/lib/api/services";
-import { DashboardResponse } from "@/lib/api/types";
+import { DashboardResponse, TopUpBalanceRequest } from "@/lib/api/types";
 import Image from "next/image";
+import TopUpBalanceModal from "./TopUpBalanceModal";
+import { useForm } from "react-hook-form";
+import { Toaster } from "react-hot-toast";
 
 const Balance = ({
   dashboardData,
@@ -30,11 +33,21 @@ const Balance = ({
 }) => {
   const [showBalance, setShowBalance] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<TopUpBalanceRequest>({
+    defaultValues: {
+      amount: 0,
+      payment_method: 1,
+    },
+  });
+
   const handleTabChange = async (key: Key) => {
     const tab = await walletService.getDashboardData({ date: key as string });
     setDashboardData(tab.data);
     setActiveTab(key as string);
   };
+
+
   const tabs = [
     {
       key: "1",
@@ -97,8 +110,21 @@ const Balance = ({
       ),
     },
   ];
+  const handleTopUp = () => {
+    onOpen();
+  };
+
   return (
     <div className="flex flex-col gap-2 mx-10">
+      <TopUpBalanceModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        handleSubmit={handleSubmit}
+        register={register}
+        errors={errors}
+        setError={setError}
+      />
+      <Toaster position="top-right" />
       <h1 className="text-base leading-6 font-medium">Balance</h1>
       <p className="text-xs leading-4 font-normal text-gray-500">
         Your balance is the total amount of money in your wallet.
@@ -131,7 +157,7 @@ const Balance = ({
                   radius="md"
                   size="md"
                   className="mt-5"
-                  onPress={() => { }}
+                  onPress={() => handleTopUp()}
                 >
                   <LockedIcon /> Top Up Balance
                 </Button>
